@@ -153,7 +153,8 @@ button {
 		 </form>
 		 
 		 <div id="results"></div>
-		 
+
+		<button class="wa-btn" onclick="sendWhatsApp()">שלח בוואטסאפ</button>
 		 
 		 <!-- 
 		 <p id="text"></p>
@@ -167,6 +168,15 @@ button {
     </main>
 	
 	<script>
+		function sendWhatsApp() {
+      let phone = "972544511513";
+      let message = "היי מה קורה";
+
+      let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+      window.open(url, "_blank");
+    }
+		
 		function ReplaceNames (loz, miss) {
 			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
 			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
