@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <html lang="he" dir="rtl">
+  <style>
+    body { 
+      background-color: lightgray;
+    }
+    
+    h1 {
+      color: black;
+	  font-family: "Times New Roman";
+    }
+
+    h2 {
+      padding: 10px 20px;
+      color: green;
+	  font-family: "Garamond";
+    }
+	
+    h3 {
+      padding: 10px 20px;
+      color: black;
+	  font-family: "Tahoma";
+	  font-size: 30px;
+    }
+
+    h4 {
+      padding: 0px 5%;
+      color: green;
+	  font-family: "Garamond";
+      padding: 110;
+      margin-bottom: 5px;
+	  font-size: 20px;
+    }
+
+    .container { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+
+    textarea {
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  height: 300px;
+  width: 90%;
+  resize: none;
+  text-align: right;
+}
+
+    select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  direction: rtl;
+  height: 50px;
+  width: 90%;
+  resize: none;
+  text-align: right;
+}
+
+.checklist-section {
+  width: 100%;
+  max-width: 350px; /* חשוב למובייל */
+  margin-right: 20px; /* מרחק מהקצה */
+  margin-left: auto; /* דוחף לימין */
+  direction: rtl;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.checklist label {
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  max-width: 100%; /* שלא יגלוש */
+}
+
+button {
+  padding: 12px 20px;
+  background: #6891E3;
+  color: white;
+  width: 90%;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4f78c9;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+}
+    
+  </style>
+</head>
+
+<body>
+	<header>
+        <div class="container">
+          <h1>לו״ז מג״ד</h1>
+        </div>
+	</header>
+
+    <main>
+        <h2>הדבק לו״ז</h2>
+      <div class="container">
+          <textarea id="nameInput"></textarea>
+        </div>
+        <h4>האם זה להיום או למחר?</h4>
+        <div class="container">
+            <select>
+              <option value="0">היום</option>
+              <option value="1">מחר</option>
+            </select>
+        </div>
+		<div class="checklist-section">
+		  <h3>מי חסר?</h3>
+
+		  <div class="checklist">
+		    <label><input type="checkbox" value="m_palsam"><span>מ.פלס״ם</span></label>
+		    <label><input type="checkbox" value="kashrag"><span>קשר״ג</span></label>
+		    <label><input type="checkbox" value="tene"><span>מפל״ג טנ״א</span></label>
+		    <label><input type="checkbox" value="dr"><span>קרפ״ג</span></label>
+		    <label><input type="checkbox" value="masol_1"><span>מסו״ל א׳</span></label>
+		    <label><input type="checkbox" value="masol_2"><span>מסו״ל ב׳</span></label>
+		    <label><input type="checkbox" value="masol_3"><span>מסו״ל ג׳</span></label>
+		  </div>
+		</div>
+		<form onsubmit="Run(event)">
+	        <div class="container">
+	            <button type="submit">צור לו״זים</button>
+	          </div>
+		 </form>
+		 
+		 <div id="results"></div>
+		 
+		 
+		 <!-- 
+		 <p id="text"></p>
+		-->
+			
+		<!-- if (miss.includes("kashrag")) {
+				loz = loz.replace(//g, "");
+			} -->
+			
+		<!-- document.getElementById("text").innerText =locations; -->
+    </main>
+	
+	<script>
+	    function sendWhatsApp(name, message) {
+			let pps = {
+			  "קמב״צ": "972532410817",
+			  "מ.פלס״ם": "972549533703",
+			  "קשר״ג": "972586134696",
+			  "מפל״ג טנ״א": "972524417174",
+			  "קמש״ג": "972527777065",
+			  "קרפ״ג": "972544701529",
+			  "קמ״ן": "972532242232",
+			  "סמפ״מ": "972584155955",
+			  "ממח״גית": "972549349341",
+			  "סקשר״ג": "972546343102",
+			  "קל״ג": "972534299221",
+			  "מסו״ל א׳": "972522848644",
+			  "מסו״ל ב׳": "972528430020",
+			  "מסו״ל ג׳": "972547777714",
+			  "רס״ר": "972509085112",
+			  "מנ״ע מטבח": "972534274045",
+			  "מנ״ע טנ״א": "972504423338",
+			  "מנ״ע לוגיסטיקה": "972505552701",
+			  "ק.רכב": "972526672892",
+			  "סמנ״א 1": "972535240726",
+			  "סמנ״א 2": "972543319447",
+			  "חוג״דת": "972509446744",
+			  "פק״רית": "972528208642",
+			  "ע.ק. אג״ם": "972505100537",
+			  "סמסו״ל א׳": "972526246114",
+			  "סמסו״ל ב׳": "972505608366",
+			  "סמסו״ל ג׳":"972587048404",
+			  "מסו״ל אלקוש": "972544446998",
+			  "סמסו״ל אלקוש": "972502001593"
+			};
+			
+	      	let phone = pps[name];
+
+	      	let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+	      	window.open(url, "_blank");
+	    }
+		
+		function ReplaceNames (loz, miss) {
+			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
+			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
+			
+			loz = loz.replace(/סמפ״ם/g, "סמפ״מ");
+			
+			loz = loz.replace(/ס\/מפ״ם/g, "מ.פלס״ם");
+			loz = loz.replace(/מפ״ם/g, "מ.פלס״ם");
+			
+			if (miss.includes("m_palsam")) {
+				loz = loz.replace(/מ\.פלס״ם/g, "סמפ״מ");
+			}
+			
+			loz = loz.replace(/ס\.קשר״ג/g, "סקשר״ג");
+			loz = loz.replace(/סקשר״ג/g, "###SKASHRAG###");
+			
+			if (miss.includes("kashrag")) {
+				loz = loz.replace(/קשר״ג/g, "סקשר״ג");
+			}
+			loz = loz.replace(/###SKASHRAG###/g, "סקשר״ג");
+			
+			
+			if (miss.includes("tene")) {
+				loz = loz.replace(/מפל״ג טנ״א/g, "ממח״גית");
+				loz = loz.replace(/ממח״גית, ממח״גית/g, "ממח״גית");
+			}
+			loz = loz.replace(/קט״אגית/g, "ממח״גית");
+			
+			if (miss.includes("dr")) {
+				loz = loz.replace(/קרפ״ג/g, "חוג״דת");
+			}
+			
+			if (miss.includes("masol_1")) {
+				loz = loz.replace(/מסו״ל א׳/g, "סמסו״ל א׳");
+			}
+			
+			if (miss.includes("masol_2")) {
+				loz = loz.replace(/מסו״ל ב׳/g, "סמסו״ל ב׳");
+			}
+			
+			if (miss.includes("masol_3")) {
+				loz = loz.replace(/מסו״ל ג׳/g, "סמסו״ל ג׳");
+			}
+			
+			loz = loz.replace(/סמנ״אות/g, "###SAMNAOT###");
+			loz = loz.replace(/סמנ״א 1\/2/g, "סמנ״א 1");
+			loz = loz.replace(/סמנ״א/g, "סמנ״א 1");
+			loz = loz.replace(/סמנ״א 1 1/g, "סמנ״א 1");
+			loz = loz.replace(/###SAMNAOT###/g, "סמנ״אות");
+			
+			loz = loz.replace(/רס״ג/g, "רס״ר");
+			loz = loz.replace(/מנ״ע לוג׳/g, "מנ״ע לוגיסטיקה");
+			
+			return loz;
+		}
+		
+		function TodayLozim(loz){
+			let new_lozim = loz.trim().split("\n\n").map(b => b.trim()).filter(Boolean);
+			let lozim = new_lozim.map(l => l.split("\n")[0]);
+			let locations = new_lozim.map(l => l.split("\n")[1] || "");
+			return [lozim, locations];
+		}
+		
+		function InLoz(loz, people) {
+			loz = loz.split('| ').pop().split(', ');
+			let people_in = [];
+			for (let i of loz) {
+				for (let p of people){
+					if (Array.isArray(p)) {
+						for (let new_p of p) {
+							if (i === new_p){
+								if (people_in.length === 0) { people_in.push(`${new_p}`); }
+								else {
+									people_in.push(`${new_p}`);
+									break;
+								}
+							}
+						}
+					}
+					else if (i === p) {
+						if (people_in.length === 0) { people_in.push(`${p}`); }
+						else { people_in.push(`${p}`); }
+						break;
+					}
+				}
+			}
+			return people_in;
+		}
+		
+		function IfInLoz(p, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
+			for (let i of people) {
+				if (p === i) { return true; }
+				
+				else if (i === "מטה") {
+					for (let j of mate) { if (p === j) { return true; } }
+				}
+				
+				else if (i === "מטה 2") {
+					for (let j of mate_2) { if (p === j) { return true; } }
+				}
+				
+				else if (i === "מנ״ע") {
+					for (let j of mana) { if (p === j) { return true; } }
+				}
+				
+				else if (i === "מסו״לים") {
+					for (let j of masolim) { if (p === j) { return true; } }
+				}
+				
+				else if (i === "סמסו״לים") {
+					for (let j of samsolim) { if (p === j) { return true; } }
+				}
+				
+				else if (i === "סמנ״אות") {
+					for (let j of samnaot) { if (p === j) { return true; } }
+				}
+			}
+			
+			return false
+		}
+		
+		function ThePeopleLozim(lozim, locations, miss, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
+			let pps = ["קמב״צ", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
+			
+			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+			
+			let missy = [false, false, false, false, false, false, false];
+			let pm = [];
+			if (miss.includes("m_palsam")) {
+				pm.push("סמפ״מ");
+				missy[0] = true;
+			}
+			if (miss.includes("kashrag")) {
+				pm.push("סקשר״ג");
+				missy[1] = true;
+			}
+			if (miss.includes("tene")) {
+				pm.push("ממח״גית");
+				missy[2] = true;
+			}
+			if (miss.includes("dr")) {
+				pm.push("חוג״דת");
+				missy[3] = true;
+			}
+			
+			let pms = [];
+			if (miss.includes("masol_1")) {
+				pms.push("סמסו״ל א׳");
+				missy[4] = true;
+			}
+			if (miss.includes("masol_2")) {
+				pms.push("סמסו״ל ב׳");
+				missy[5] = true;
+			}
+			if (miss.includes("masol_3")) {
+				pms.push("סמסו״ל ג׳");
+				missy[6] = true;
+			}
+			
+			let count = 0;
+			for (let loz of lozim) {
+				let people_in = InLoz(loz, people);
+				
+				// הוספה אוטומטית
+				if (loz.includes("העמ״צ צק״ג")) {
+				  people_in.push("סמנ״א 1", "סמנ״א 2");
+				}
+				
+				if (loz.includes("מטה")) {
+				  people_in.push(...pm);
+				}
+				
+				if (loz.includes("מסו״לים")) {
+				  people_in.push(...pms);
+				}
+				
+				for (let i in pps) {
+					let p = pps[i];
+					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot)){
+						let loc = locations[count];
+						let entry;
+						if (loc === "") { entry = loz; }
+						else { entry = `${loz}\n${loc}`; }
+						
+						if (people_lozim[i] === "") { people_lozim[i] = entry; }
+						else { people_lozim[i] += `\n\n${entry}`; }
+					}
+				}
+				count++;
+			}
+			
+			let skip_map = {
+			        1: missy[0],
+			        2: missy[1],
+			        3: missy[2],
+			        5: missy[3],
+			        11: missy[4],
+			        12: missy[5],
+			        13: missy[6]
+			    }
+			let today = new Date();
+			today.setDate(today.getDate() + d);
+			
+			let day = String(today.getDate()).padStart(2, "0");
+			let month = String(today.getMonth() + 1).padStart(2, "0");
+
+			let tomorrow = `${day}/${month}`;
+			
+			if (d === 1) { tomorrow = `ערב טוב, לוז שלך למחר *${tomorrow}*:`; }
+			else { tomorrow = `ערב טוב, לוז שלך להיום *${tomorrow}*:`; }
+			
+			let container = document.getElementById("results");
+			let existing = new Set();
+			
+			for (let j in people_lozim) {
+				if (skip_map[Number(j)]) { continue; }
+				let l = people_lozim[j];
+				if (!l) { continue; }
+				
+				let name = `${pps[j]}`;
+				
+				if (existing.has(name)) continue;
+				existing.add(name);
+
+				let message = `${tomorrow}\n\n${l}`;
+				
+				let card = document.createElement("div");
+				card.style.background = "white";
+				card.style.padding = "15px";
+				card.style.margin = "10px";
+				card.style.borderRadius = "10px";
+				card.style.border = "1px solid #ccc";
+				
+				let title = document.createElement("h3");
+				title.innerText = name;
+				
+				let textarea = document.createElement("textarea");
+				textarea.value = message;
+				textarea.style.width = "80%";
+				textarea.style.height = "120px";
+				textarea.readOnly = true;
+				textarea.style.background = "#f5f5f5";
+				
+				let btn = document.createElement("button");
+				btn.innerText = "העתק הודעה";
+				
+				btn.style.display = "block"; 
+				
+				btn.onclick = async function () {
+				  await navigator.clipboard.writeText(message);
+
+				  btn.innerText = "✔ הועתק";
+				  btn.style.background = "green";
+				};
+				
+				let waBtn = document.createElement("button");
+				waBtn.innerText = "שלח בוואטסאפ";
+				
+				waBtn.style.display = "block";
+
+				waBtn.style.background = "#25D366";
+				waBtn.style.color = "white";
+				waBtn.style.border = "none";
+				waBtn.style.padding = "10px";
+				waBtn.style.borderRadius = "5px";
+				waBtn.style.cursor = "pointer";
+
+				waBtn.onclick = function () {
+				  sendWhatsApp(name, message);
+				};
+
+				card.appendChild(title);
+				card.appendChild(textarea);
+				card.appendChild(btn);
+				card.appendChild(waBtn);
+
+				container.appendChild(card);
+			}
+		}
+		
+		function Run(event) {
+	    event.preventDefault(); // עוצר רענון דף
+		
+		let mate = ["קמב״צ", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן"];
+		let mate_2 = ["סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג"];
+		let mana = ["רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב"];
+		let masolim = ["מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳"];
+		let samsolim = ["סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳"];
+		let samnaot = ["סמנ״א 1", "סמנ״א 2"];
+		
+		let people = ["מטה","מטה 2","מסו״לים","מנ״ע","סמנ״א 1","סמנ״א 2","חוג״דת","פק״רית","ע.ק. אג״ם","סמסו״לים","סמנ״אות",...mate,...mate_2,...mana,...masolim,...samsolim,...samnaot,"מסו״ל אלקוש","סמסו״ל אלקוש", "מני״ג"];
+		
+	    let p_string = document.getElementById("nameInput").value;
+		
+		let days = Number(document.querySelector("select").value);
+		
+		let miss = []
+		document.querySelectorAll(".checklist input:checked").forEach(cb => { 
+			miss.push(cb.value); });
+			
+		p_string = ReplaceNames (p_string, miss);
+		
+		let result = TodayLozim(p_string);
+		let lozim = result[0];
+		let locations = result[1];
+		
+		ThePeopleLozim(lozim, locations, miss, days, people, mate, mate_2, mana, masolim, samsolim, samnaot);
+	  }
+	  
+	</script>
+	
+</body>
+</html>
