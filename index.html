@@ -208,7 +208,11 @@ button {
 	    }
 		
 		function ReplaceNames (loz, miss) {
-            loz = loz.replace(/['"]+/g, "״");
+            // גרשיים רגילים
+            loz = loz.replace(/"/g, "״");
+
+            // רק שני גרשים (או יותר)
+            loz = loz.replace(/'{2,}/g, "״");
 			
 			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
 			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
