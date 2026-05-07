@@ -259,11 +259,15 @@ button {
 			}
 			
 			loz = loz.replace(/סמנ״אות/g, "###SAMNAOT###");
-			loz = loz.replace(/סמנ״א 1\/2/g, "סמנ״א 1");
-			loz = loz.replace(/סמנ״א/g, "סמנ״א 1");
-			loz = loz.replace(/סמנ״א 1 1/g, "סמנ״א 1");
-			loz = loz.replace(/###SAMNAOT###/g, "סמנ״אות");
-			
+      loz = loz.replace(/סמנ״א במיל׳/g, "###SAMNA_MIL###");
+      
+      loz = loz.replace(/סמנ״א 1\/2/g, "סמנ״א 1");
+      loz = loz.replace(/סמנ״א/g, "סמנ״א 1");
+      loz = loz.replace(/סמנ״א 1 1/g, "סמנ״א 1");
+      
+      loz = loz.replace(/###SAMNAOT###/g, "סמנ״אות");
+      loz = loz.replace(/###SAMNA_MIL###/g, "סמנ״א במיל׳");
+      
 			loz = loz.replace(/רס״ג/g, "רס״ר");
 			loz = loz.replace(/מנ״ע לוג׳/g, "מנ״ע לוגיסטיקה");
 			
