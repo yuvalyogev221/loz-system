@@ -92,6 +92,41 @@
   max-width: 100%; /* שלא יגלוש */
 }
 
+.person-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.person-name {
+  font-size: 22px;
+  font-weight: bold;
+
+  width: 180px;
+}
+
+.person-actions {
+  display: flex;
+  gap: 60px;
+
+  align-items: center;
+}
+
+.person-actions input {
+  width: 22px;
+  height: 22px;
+}
+
+.header-row {
+  font-weight: bold;
+  color: green;
+  border-bottom: 2px solid #888;
+}
+	  
 .status-table {
   width: 95%;
   margin: auto;
@@ -159,74 +194,52 @@ button {
 		
 		<div class="checklist-section">
 
-  <h3>מי חסר?</h3>
+    <h3>מי חסר?</h3>
 
-  <table class="status-table">
+    <div class="person-row header-row">
+        <div class="person-name">שם</div>
+        <div class="person-actions">
+            <span>חסר</span>
+            <span>יוצא</span>
+            <span>חוזר</span>
+        </div>
+    </div>
 
-    <tr>
-      <th>שם</th>
-      <th>חסר</th>
-      <th>יוצא</th>
-      <th>חוזר</th>
-    </tr>
+    <div class="person-row">
+        <div class="person-name">ק.אג״ם</div>
 
-    <tr>
-      <td>ק.אג״ם</td>
-      <td><input type="checkbox" class="missing" value="k_agam"></td>
-      <td><input type="radio" name="k_agam_status" class="leave" data-missing="k_agam"></td>
-      <td><input type="radio" name="k_agam_status" class="return" data-missing="k_agam"></td>
-    </tr>
+        <div class="person-actions">
+            <input type="checkbox" class="missing" value="k_agam">
 
-    <tr>
-      <td>מ.פלס״ם</td>
-      <td><input type="checkbox" class="missing" value="m_palsam"></td>
-      <td><input type="radio" name="m_palsam_status" class="leave" data-missing="m_palsam"></td>
-      <td><input type="radio" name="m_palsam_status" class="return" data-missing="m_palsam"></td>
-    </tr>
+            <input type="radio"
+                   name="k_agam_status"
+                   class="leave"
+                   data-missing="k_agam">
 
-    <tr>
-      <td>קשר״ג</td>
-      <td><input type="checkbox" class="missing" value="kashrag"></td>
-      <td><input type="radio" name="kashrag_status" class="leave" data-missing="kashrag"></td>
-      <td><input type="radio" name="kashrag_status" class="return" data-missing="kashrag"></td>
-    </tr>
+            <input type="radio"
+                   name="k_agam_status"
+                   class="return"
+                   data-missing="k_agam">
+        </div>
+    </div>
 
-    <tr>
-      <td>מפל״ג טנ״א</td>
-      <td><input type="checkbox" class="missing" value="tene"></td>
-      <td><input type="radio" name="tene_status" class="leave" data-missing="tene"></td>
-      <td><input type="radio" name="tene_status" class="return" data-missing="tene"></td>
-    </tr>
+    <div class="person-row">
+        <div class="person-name">מ.פלס״ם</div>
 
-    <tr>
-      <td>קרפ״ג</td>
-      <td><input type="checkbox" class="missing" value="dr"></td>
-      <td><input type="radio" name="dr_status" class="leave" data-missing="dr"></td>
-      <td><input type="radio" name="dr_status" class="return" data-missing="dr"></td>
-    </tr>
+        <div class="person-actions">
+            <input type="checkbox" class="missing" value="m_palsam">
 
-    <tr>
-      <td>מסו״ל א׳</td>
-      <td><input type="checkbox" class="missing" value="masol_1"></td>
-      <td><input type="radio" name="masol1_status" class="leave" data-missing="masol_1"></td>
-      <td><input type="radio" name="masol1_status" class="return" data-missing="masol_1"></td>
-    </tr>
+            <input type="radio"
+                   name="m_palsam_status"
+                   class="leave"
+                   data-missing="m_palsam">
 
-    <tr>
-      <td>מסו״ל ב׳</td>
-      <td><input type="checkbox" class="missing" value="masol_2"></td>
-      <td><input type="radio" name="masol2_status" class="leave" data-missing="masol_2"></td>
-      <td><input type="radio" name="masol2_status" class="return" data-missing="masol_2"></td>
-    </tr>
-
-    <tr>
-      <td>מסו״ל ג׳</td>
-      <td><input type="checkbox" class="missing" value="masol_3"></td>
-      <td><input type="radio" name="masol3_status" class="leave" data-missing="masol_3"></td>
-      <td><input type="radio" name="masol3_status" class="return" data-missing="masol_3"></td>
-    </tr>
-
-  </table>
+            <input type="radio"
+                   name="m_palsam_status"
+                   class="return"
+                   data-missing="m_palsam">
+        </div>
+    </div>
 
 </div>
 		
