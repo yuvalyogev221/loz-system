@@ -92,6 +92,29 @@
   max-width: 100%; /* שלא יגלוש */
 }
 
+.status-table {
+  width: 95%;
+  margin: auto;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+}
+
+.status-table th,
+.status-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.status-table th {
+  background: #f3f3f3;
+}
+
+.status-table td:first-child {
+  font-weight: bold;
+}
+
 button {
   padding: 12px 20px;
   background: #6891E3;
@@ -134,19 +157,78 @@ button {
             </select>
         </div>
 		<div class="checklist-section">
-		  <h3>מי חסר?</h3>
 
-		  <div class="checklist">
-			<label><input type="checkbox" value="k_agam"><span>ק.אג״ם</span></label>
-		    <label><input type="checkbox" value="m_palsam"><span>מ.פלס״ם</span></label>
-		    <label><input type="checkbox" value="kashrag"><span>קשר״ג</span></label>
-		    <label><input type="checkbox" value="tene"><span>מפל״ג טנ״א</span></label>
-		    <label><input type="checkbox" value="dr"><span>קרפ״ג</span></label>
-		    <label><input type="checkbox" value="masol_1"><span>מסו״ל א׳</span></label>
-		    <label><input type="checkbox" value="masol_2"><span>מסו״ל ב׳</span></label>
-		    <label><input type="checkbox" value="masol_3"><span>מסו״ל ג׳</span></label>
-		  </div>
-		</div>
+  <h3>מי חסר?</h3>
+
+  <table class="status-table">
+
+    <tr>
+      <th>שם</th>
+      <th>חסר</th>
+      <th>יוצא</th>
+      <th>חוזר</th>
+    </tr>
+
+    <tr>
+      <td>ק.אג״ם</td>
+      <td><input type="checkbox" class="missing" value="k_agam"></td>
+      <td><input type="radio" name="k_agam_status" class="leave" data-missing="k_agam"></td>
+      <td><input type="radio" name="k_agam_status" class="return" data-missing="k_agam"></td>
+    </tr>
+
+    <tr>
+      <td>מ.פלס״ם</td>
+      <td><input type="checkbox" class="missing" value="m_palsam"></td>
+      <td><input type="radio" name="m_palsam_status" class="leave" data-missing="m_palsam"></td>
+      <td><input type="radio" name="m_palsam_status" class="return" data-missing="m_palsam"></td>
+    </tr>
+
+    <tr>
+      <td>קשר״ג</td>
+      <td><input type="checkbox" class="missing" value="kashrag"></td>
+      <td><input type="radio" name="kashrag_status" class="leave" data-missing="kashrag"></td>
+      <td><input type="radio" name="kashrag_status" class="return" data-missing="kashrag"></td>
+    </tr>
+
+    <tr>
+      <td>מפל״ג טנ״א</td>
+      <td><input type="checkbox" class="missing" value="tene"></td>
+      <td><input type="radio" name="tene_status" class="leave" data-missing="tene"></td>
+      <td><input type="radio" name="tene_status" class="return" data-missing="tene"></td>
+    </tr>
+
+    <tr>
+      <td>קרפ״ג</td>
+      <td><input type="checkbox" class="missing" value="dr"></td>
+      <td><input type="radio" name="dr_status" class="leave" data-missing="dr"></td>
+      <td><input type="radio" name="dr_status" class="return" data-missing="dr"></td>
+    </tr>
+
+    <tr>
+      <td>מסו״ל א׳</td>
+      <td><input type="checkbox" class="missing" value="masol_1"></td>
+      <td><input type="radio" name="masol1_status" class="leave" data-missing="masol_1"></td>
+      <td><input type="radio" name="masol1_status" class="return" data-missing="masol_1"></td>
+    </tr>
+
+    <tr>
+      <td>מסו״ל ב׳</td>
+      <td><input type="checkbox" class="missing" value="masol_2"></td>
+      <td><input type="radio" name="masol2_status" class="leave" data-missing="masol_2"></td>
+      <td><input type="radio" name="masol2_status" class="return" data-missing="masol_2"></td>
+    </tr>
+
+    <tr>
+      <td>מסו״ל ג׳</td>
+      <td><input type="checkbox" class="missing" value="masol_3"></td>
+      <td><input type="radio" name="masol3_status" class="leave" data-missing="masol_3"></td>
+      <td><input type="radio" name="masol3_status" class="return" data-missing="masol_3"></td>
+    </tr>
+
+  </table>
+
+</div>
+		
 		<form onsubmit="Run(event)">
 	        <div class="container">
 	            <button type="submit">צור לו״זים</button>
@@ -514,6 +596,20 @@ button {
 				container.appendChild(card);
 			}
 		}
+
+	document.querySelectorAll(".leave, .return").forEach(radio => {
+
+    radio.addEventListener("change", function () {
+
+        let person = this.dataset.missing;
+
+        document.querySelector(
+            `.missing[value="${person}"]`
+        ).checked = true;
+
+    });
+
+});
 		
 		function Run(event) {
 	    event.preventDefault(); // עוצר רענון דף
@@ -532,7 +628,7 @@ button {
 		let days = Number(document.querySelector("select").value);
 		
 		let miss = []
-		document.querySelectorAll(".checklist input:checked").forEach(cb => { 
+		document.querySelectorAll(".missing:checked").forEach(cb => { 
 			miss.push(cb.value); });
 			
 		p_string = ReplaceNames (p_string, miss);
