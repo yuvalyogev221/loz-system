@@ -98,13 +98,22 @@
 
 .person-row {
   display: grid;
-  grid-template-columns: 1.8fr 70px 70px 70px;
+  grid-template-columns: minmax(120px, 1fr) 70px 70px 70px;
 
   align-items: center;
 
   padding: 10px 0;
 
   border-bottom: 1px solid #bdbdbd;
+}
+
+.person-row > div,
+.person-row > input {
+  justify-self: center;
+}
+
+.person-name {
+  justify-self: start !important;
 }
 
 .person-row.header {
@@ -172,7 +181,7 @@ button {
   <div class="person-table">
 
     <div class="person-row header">
-      <div>שם</div>
+      <div class="person-name">שם</div>
       <div>חסר</div>
       <div>יוצא</div>
       <div>חוזר</div>
@@ -615,6 +624,27 @@ button {
         document.querySelector(
             `.missing[value="${person}"]`
         ).checked = true;
+
+    });
+
+});
+
+		document.querySelectorAll(".missing").forEach(box => {
+
+    box.addEventListener("change", function () {
+
+        if (!this.checked) {
+
+            let person = this.value;
+
+            document.querySelector(
+                `.leave[data-missing="${person}"]`
+            ).checked = false;
+
+            document.querySelector(
+                `.return[data-missing="${person}"]`
+            ).checked = false;
+        }
 
     });
 
