@@ -547,6 +547,9 @@ let key = map[p];
 
 						let startHour = GetStartHour(loz);
 
+						//תמצא אותי !
+						console.log(loz, startHour);
+
 						if (leave.includes(key) && startHour >= 12) {
 						    continue;
 						}
@@ -717,6 +720,11 @@ let key = map[p];
 		document.querySelectorAll(".return:checked").forEach(cb => {
 		    back.push(cb.dataset.missing);
 		});
+
+		//תמצא אותי !
+		console.log("MISS:", miss);
+		console.log("LEAVE:", leave);
+		console.log("BACK:", back);
 			
 		p_string = ReplaceNames (p_string, miss);
 		
