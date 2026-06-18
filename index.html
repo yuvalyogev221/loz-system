@@ -137,6 +137,7 @@ button {
 		  <h3>מי חסר?</h3>
 
 		  <div class="checklist">
+			<label><input type="checkbox" value="k_agam"><span>ק.אג״ם</span></label>
 		    <label><input type="checkbox" value="m_palsam"><span>מ.פלס״ם</span></label>
 		    <label><input type="checkbox" value="kashrag"><span>קשר״ג</span></label>
 		    <label><input type="checkbox" value="tene"><span>מפל״ג טנ״א</span></label>
@@ -169,6 +170,7 @@ button {
 	<script>
 	    function sendWhatsApp(name, message) {
 			let pps = {
+			  //"ק.אג״ם": "972532410817",
 			  "מ.פלס״ם": "972549533703",
 			  "קשר״ג": "972586134696",
 			  "מפל״ג טנ״א": "972524417174",
@@ -198,7 +200,7 @@ button {
 			  "סמסו״ל ג׳":"972587048404",
 			  "מסו״ל אלקוש": "972544446998",
 			  "מני״ג": "972525422947",
-						  "ע.מג״ד": "972535240726",
+			  "ע.מג״ד": "972535240726",
       };
 			
 	      	let phone = pps[name];
@@ -214,9 +216,10 @@ button {
 
             // רק זוג גרשים בדיוק (ולא יחיד)
             loz = loz.replace(/''/g, "״");
+
+			loz = loz.replace(/ק. אג״ם/g, "״ק.אג״ם");
 			
 			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
-			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
 			
 			loz = loz.replace(/סמפ״ם/g, "סמפ״מ");
 			
@@ -344,41 +347,46 @@ button {
 		}
 		
 		function ThePeopleLozim(lozim, locations, miss, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
-			let pps = ["קמב״צ", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
+			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
 			
-			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 			
-			let missy = [false, false, false, false, false, false, false];
+			let missy = [false, false, false, false, false, false, false, false];
 			let pm = [];
+			if (miss.includes("k_agam")) {
+				pm.push("ק.אג״ם");
+				missy[1] = true;
+			}
+			
 			if (miss.includes("m_palsam")) {
 				pm.push("סמפ״מ");
 				missy[0] = true;
 			}
 			if (miss.includes("kashrag")) {
 				pm.push("סקשר״ג");
-				missy[1] = true;
+				missy[2] = true;
 			}
 			if (miss.includes("tene")) {
 				pm.push("ממח״גית");
-				missy[2] = true;
+				missy[3] = true;
 			}
 			if (miss.includes("dr")) {
 				pm.push("חוג״דת");
-				missy[3] = true;
+				missy[4] = true;
 			}
 			
 			let pms = [];
 			if (miss.includes("masol_1")) {
 				pms.push("סמסו״ל א׳");
-				missy[4] = true;
+				missy[5] = true;
 			}
 			if (miss.includes("masol_2")) {
 				pms.push("סמסו״ל ב׳");
-				missy[5] = true;
+				missy[6] = true;
 			}
 			if (miss.includes("masol_3")) {
 				pms.push("סמסו״ל ג׳");
-				missy[6] = true;
+				missy[7] = true;
 			}
 			
 			let count = 0;
@@ -414,13 +422,14 @@ button {
 			}
 			
 			let skip_map = {
-			        1: missy[0],
-			        2: missy[1],
-			        3: missy[2],
-			        5: missy[3],
-			        11: missy[4],
+					0: missy[0],
+			        1: missy[1],
+			        2: missy[2],
+			        3: missy[3],
+			        5: missy[4],
 			        12: missy[5],
-			        13: missy[6]
+			        13: missy[6],
+			        14: missy[7]
 			    }
 			let today = new Date();
 			today.setDate(today.getDate() + d);
@@ -505,14 +514,14 @@ button {
 		function Run(event) {
 	    event.preventDefault(); // עוצר רענון דף
 		
-		let mate = ["קמב״צ", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן"];
+		let mate = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן"];
 		let mate_2 = ["סמפ״מ", "קמב״צ", "ממח״גית", "סקשר״ג", "קל״ג"];
 		let mana = ["רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב"];
 		let masolim = ["מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳"];
 		let samsolim = ["סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳"];
 		let samnaot = ["סמנ״א 1", "סמנ״א 2", "ע.מג״ד"];
 		
-		let people = ["מטה","מטה 2","מסו״לים","מנ״ע","סמנ״א 1","סמנ״א 2","חוג״דת","פק״רית","ע.ק. אג״ם","סמסו״לים","סמנ״אות",...mate,...mate_2,...mana,...masolim,...samsolim,...samnaot,"מסו״ל אלקוש","סמסו״ל אלקוש", "מני״ג"];
+		let people = ["מטה","מטה 2","מסו״לים","מנ״ע","סמנ״א 1","סמנ״א 2","חוג״דת","פק״רית","ע.ק. אג״ם","סמסו״לים","סמנ״אות",...mate,...mate_2,...mana,...masolim,...samsolim,...samnaot,"ע.מג״ד", "מני״ג"];
 		
 	    let p_string = document.getElementById("nameInput").value;
 		
