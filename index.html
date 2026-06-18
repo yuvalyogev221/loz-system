@@ -217,9 +217,13 @@ button {
             // רק זוג גרשים בדיוק (ולא יחיד)
             loz = loz.replace(/''/g, "״");
 
-			loz = loz.replace(/ק. אג״ם/g, "״ק.אג״ם");
+			loz = loz.replace(/ק. אג״ם/g, "ק.אג״ם");
 			
 			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
+
+			if (miss.includes("k_agam")) {
+    			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
+			}
 			
 			loz = loz.replace(/סמפ״ם/g, "סמפ״מ");
 			
