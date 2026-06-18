@@ -190,8 +190,8 @@ button {
     <div class="person-row">
       <div class="person-name">ק.אג״ם</div>
       <input type="checkbox" class="missing" value="k_agam">
-      <input type="radio" name="k_agam_status" class="leave" data-missing="k_agam">
-      <input type="radio" name="k_agam_status" class="return" data-missing="k_agam">
+      <input type="radio" name="k_agam_status" value="leave" class="leave" data-missing="k_agam">
+      <input type="radio" name="k_agam_status" value="return" class="return" data-missing="k_agam">
     </div>
 
     <div class="person-row">
@@ -448,6 +448,30 @@ button {
 			
 			return false
 		}
+
+	function GetStatus(person) {
+	
+	    let selected = document.querySelector(
+	        `input[name="${person}_status"]:checked`
+	    );
+	
+	    if (!selected) {
+	        return "missing";
+	    }
+	
+	    return selected.value;
+	}
+	
+	function GetHour(loz) {
+	
+	    let match = loz.match(/^(\d{1,2}):(\d{2})/);
+	
+	    if (!match) {
+	        return 0;
+	    }
+
+    return Number(match[1]);
+}
 		
 		function ThePeopleLozim(lozim, locations, miss, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
 			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
@@ -455,6 +479,18 @@ button {
 			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 			
 			let missy = [false, false, false, false, false, false, false, false];
+
+			let statusMap = {
+			    "k_agam": GetStatus("k_agam"),
+			    "m_palsam": GetStatus("m_palsam"),
+			    "kashrag": GetStatus("kashrag"),
+			    "tene": GetStatus("tene"),
+			    "dr": GetStatus("dr"),
+			    "masol_1": GetStatus("masol1"),
+			    "masol_2": GetStatus("masol2"),
+			    "masol_3": GetStatus("masol3")
+			};
+			
 			let pm = [];
 			if (miss.includes("k_agam")) {
 				pm.push("קמב״צ");
@@ -508,9 +544,46 @@ button {
 				if (loz.includes("מסו״לים")) {
 				  people_in.push(...pms);
 				}
+
+				let replacementMap = {
+				    "ק.אג״ם": ["k_agam", "קמב״צ"],
+				    "מ.פלס״ם": ["m_palsam", "סמפ״מ"],
+				    "קשר״ג": ["kashrag", "סקשר״ג"],
+				    "מפל״ג טנ״א": ["tene", "ממח״גית"],
+				    "קרפ״ג": ["dr", "חוג״דת"],
+				    "מסו״ל א׳": ["masol_1", "סמסו״ל א׳"],
+				    "מסו״ל ב׳": ["masol_2", "סמסו״ל ב׳"],
+				    "מסו״ל ג׳": ["masol_3", "סמסו״ל ג׳"]
+				};
 				
 				for (let i in pps) {
 					let p = pps[i];
+
+				let startHour = GetHour(loz);
+
+if (replacementMap[p]) {
+
+    let key = replacementMap[p][0];
+    let replacer = replacementMap[p][1];
+
+    let status = statusMap[key];
+
+    if (status === "leave") {
+
+        if (startHour >= 12 && p === pps[i]) {
+            continue;
+        }
+
+    }
+
+    if (status === "return") {
+
+        if (startHour < 12 && p === pps[i]) {
+            continue;
+        }
+
+    }
+}
 					
 					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot)){
 						let loc = locations[count];
