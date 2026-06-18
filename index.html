@@ -298,7 +298,6 @@ button {
 			  "סמסו״ל א׳": "972526246114",
 			  "סמסו״ל ב׳": "972505608366",
 			  "סמסו״ל ג׳":"972587048404",
-			  "מסו״ל אלקוש": "972544446998",
 			  "מני״ג": "972525422947",
 			  "ע.מג״ד": "972535240726",
       };
@@ -449,8 +448,22 @@ button {
 			
 			return false
 		}
+
+		function GetStartHour(loz) {
 		
-		function ThePeopleLozim(lozim, locations, miss, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
+		    let match = loz.match(/^(\d{1,2}):(\d{2})/);
+		
+		    if (!match) {
+		        return null;
+		    }
+		
+		    let hour = Number(match[1]);
+		    let minute = Number(match[2]);
+		
+		    return hour + minute / 60;
+		}
+		
+		function ThePeopleLozim(lozim, locations, miss, leave, back, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
 			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
 			
 			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
@@ -512,11 +525,35 @@ button {
 				
 				for (let i in pps) {
 					let p = pps[i];
+
+					let map = {
+					    "ק.אג״ם": "k_agam",
+					    "מ.פלס״ם": "m_palsam",
+					    "קשר״ג": "kashrag",
+					    "מפל״ג טנ״א": "tene",
+					    "קרפ״ג": "dr",
+					    "מסו״ל א׳": "masol_1",
+					    "מסו״ל ב׳": "masol_2",
+					    "מסו״ל ג׳": "masol_3"
+					};
+
+let key = map[p];
+					
 					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot)){
 						let loc = locations[count];
 						let entry;
 						if (loc === "") { entry = loz; }
 						else { entry = `${loz}\n${loc}`; }
+
+						let startHour = GetStartHour(loz);
+
+						if (leave.includes(key) && startHour >= 12) {
+						    continue;
+						}
+						
+						if (back.includes(key) && startHour < 12) {
+						    continue;
+						}
 						
 						if (people_lozim[i] === "") { people_lozim[i] = entry; }
 						else { people_lozim[i] += `\n\n${entry}`; }
@@ -669,6 +706,17 @@ button {
 		let miss = []
 		document.querySelectorAll(".missing:checked").forEach(cb => { 
 			miss.push(cb.value); });
+
+		let leave = [];
+		let back = [];
+
+		document.querySelectorAll(".leave:checked").forEach(cb => {
+		    leave.push(cb.dataset.missing);
+		});
+		
+		document.querySelectorAll(".return:checked").forEach(cb => {
+		    back.push(cb.dataset.missing);
+		});
 			
 		p_string = ReplaceNames (p_string, miss);
 		
@@ -676,7 +724,7 @@ button {
 		let lozim = result[0];
 		let locations = result[1];
 		
-		ThePeopleLozim(lozim, locations, miss, days, people, mate, mate_2, mana, masolim, samsolim, samnaot);
+		ThePeopleLozim(lozim, locations, miss, leave, back, days, people, mate, mate_2, mana, masolim, samsolim, samnaot);
 	  }
 	  
 	</script>
