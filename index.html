@@ -739,9 +739,26 @@ if (replacementMap[p]) {
 		
 		let days = Number(document.querySelector("select").value);
 		
-		let miss = []
-		document.querySelectorAll(".missing:checked").forEach(cb => { 
-			miss.push(cb.value); });
+		let miss = [];
+
+document.querySelectorAll(".missing:checked").forEach(cb => {
+
+    let person = cb.value;
+
+    let leaveSelected =
+        document.querySelector(
+            `.leave[data-missing="${person}"]`
+        )?.checked;
+
+    let returnSelected =
+        document.querySelector(
+            `.return[data-missing="${person}"]`
+        )?.checked;
+
+    if (!leaveSelected && !returnSelected) {
+        miss.push(person);
+    }
+});
 			
 		p_string = ReplaceNames (p_string, miss);
 		
