@@ -310,7 +310,7 @@ button {
 	      	window.open(url, "_blank");
 	    }
 		
-		function ReplaceNames (loz, miss) {
+		function ReplaceNames(loz, miss, leave, ret) {
             // גרשיים רגילים
             loz = loz.replace(/"/g, "״");
 
@@ -321,7 +321,7 @@ button {
 			
 			loz = loz.replace(/קמב״ץ/g, "קמב״צ");
 
-			if (miss.includes("k_agam")) {
+			if (miss.includes("k_agam") && !leave.includes("k_agam") && !ret.includes("k_agam")) {
     			loz = loz.replace(/ק\.אג״ם/g, "קמב״צ");
 			}
 			
@@ -330,38 +330,38 @@ button {
 			loz = loz.replace(/ס\/מפ״ם/g, "מ.פלס״ם");
 			loz = loz.replace(/מפ״ם/g, "מ.פלס״ם");
 			
-			if (miss.includes("m_palsam")) {
+			if (miss.includes("m_palsam") && !leave.includes("m_palsam") && !ret.includes("m_palsam")) {
 				loz = loz.replace(/מ\.פלס״ם/g, "סמפ״מ");
 			}
 			
 			loz = loz.replace(/ס\.קשר״ג/g, "סקשר״ג");
 			loz = loz.replace(/סקשר״ג/g, "###SKASHRAG###");
 			
-			if (miss.includes("kashrag")) {
+			if (miss.includes("kashrag") && !leave.includes("kashrag") && !ret.includes("kashrag")) {
 				loz = loz.replace(/קשר״ג/g, "סקשר״ג");
 			}
 			loz = loz.replace(/###SKASHRAG###/g, "סקשר״ג");
 			
 			
-			if (miss.includes("tene")) {
+			if (miss.includes("tene") && !leave.includes("tene") && !ret.includes("tene")) {
 				loz = loz.replace(/מפל״ג טנ״א/g, "ממח״גית");
 				loz = loz.replace(/ממח״גית, ממח״גית/g, "ממח״גית");
 			}
 			loz = loz.replace(/קט״אגית/g, "ממח״גית");
 			
-			if (miss.includes("dr")) {
+			if (miss.includes("dr") && !leave.includes("dr") && !ret.includes("dr")) {
 				loz = loz.replace(/קרפ״ג/g, "חוג״דת");
 			}
 			
-			if (miss.includes("masol_1")) {
+			if (miss.includes("masol_1") && !leave.includes("masol_1") && !ret.includes("masol_1")) {
 				loz = loz.replace(/מסו״ל א׳/g, "סמסו״ל א׳");
 			}
 			
-			if (miss.includes("masol_2")) {
+			if (miss.includes("masol_2") && !leave.includes("masol_2") && !ret.includes("masol_2")) {
 				loz = loz.replace(/מסו״ל ב׳/g, "סמסו״ל ב׳");
 			}
 			
-			if (miss.includes("masol_3")) {
+			if (miss.includes("masol_3") && !leave.includes("masol_3") && !ret.includes("masol_3")) {
 				loz = loz.replace(/מסו״ל ג׳/g, "סמסו״ל ג׳");
 			}
 			
@@ -390,6 +390,64 @@ button {
 			let lozim = new_lozim.map(l => l.split("\n")[0]);
 			let locations = new_lozim.map(l => l.split("\n")[1] || "");
 			return [lozim, locations];
+		}
+		
+		function SplitLoz(l, originalName, replacementName, leaveMode) {
+
+		    let [lozim, locations] = TodayLozim(l);
+
+		    let mine = "";
+		    let replacement = "";
+
+		    for (let i = 0; i < lozim.length; i++) {
+
+		        let loz = lozim[i];
+
+		        let start_hour = loz.split("-")[0];
+
+		        let [h, m] = start_hour.split(":").map(Number);
+
+		        let minutes = h * 60 + m;
+
+		        let loc = locations[i];
+
+		        let entry =
+		            loc === ""
+		            ? loz
+		            : `${loz}\n${loc}`;
+
+		        let goesToReplacement =
+		            leaveMode
+		            ? minutes >= 720
+		            : minutes < 720;
+
+		        if (goesToReplacement) {
+
+		            entry =
+		                entry.replace(
+		                    new RegExp(originalName, "g"),
+		                    replacementName
+		                );
+
+		            if (replacement === "") {
+		                replacement = entry;
+		            }
+		            else {
+		                replacement += "\n\n" + entry;
+		            }
+		        }
+		        else {
+
+		            if (mine === "") {
+		                mine = entry;
+		            }
+		            else {
+		                mine += "\n\n" + entry;
+		            }
+		        }
+		    }
+
+		    return [mine, replacement];
 		}
 		
 		function InLoz(loz, people) {
@@ -450,45 +508,104 @@ button {
 			return false
 		}
 		
-		function ThePeopleLozim(lozim, locations, miss, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
+		function ThePeopleLozim(lozim, locations, miss, leave, ret, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
 			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
+			
+			let replacements = {
+			    k_agam: {
+			        index: 0,
+			        replacementIndex: 7,
+			        original: "ק.אג״ם",
+			        replacement: "קמב״צ"
+			    },
+
+			    m_palsam: {
+			        index: 1,
+			        replacementIndex: 8,
+			        original: "מ.פלס״ם",
+			        replacement: "סמפ״מ"
+			    },
+
+			    kashrag: {
+			        index: 2,
+			        replacementIndex: 10,
+			        original: "קשר״ג",
+			        replacement: "סקשר״ג"
+			    },
+
+			    tene: {
+			        index: 3,
+			        replacementIndex: 9,
+			        original: "מפל״ג טנ״א",
+			        replacement: "ממח״גית"
+			    },
+
+			    dr: {
+			        index: 5,
+			        replacementIndex: 23,
+			        original: "קרפ״ג",
+			        replacement: "חוג״דת"
+			    },
+
+			    masol_1: {
+			        index: 12,
+			        replacementIndex: 26,
+			        original: "מסו״ל א׳",
+			        replacement: "סמסו״ל א׳"
+			    },
+
+			    masol_2: {
+			        index: 13,
+			        replacementIndex: 27,
+			        original: "מסו״ל ב׳",
+			        replacement: "סמסו״ל ב׳"
+			    },
+
+			    masol_3: {
+			        index: 14,
+			        replacementIndex: 28,
+			        original: "מסו״ל ג׳",
+			        replacement: "סמסו״ל ג׳"
+			    }
+			};
 			
 			let people_lozim = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 			
 			let missy = [false, false, false, false, false, false, false, false];
 			let pm = [];
-			if (miss.includes("k_agam")) {
+			
+			if (miss.includes("k_agam") && !leave.includes("k_agam") && !ret.includes("k_agam")) {
 				pm.push("קמב״צ");
 				missy[0] = true;
 			}
 			
-			if (miss.includes("m_palsam")) {
+			if (miss.includes("m_palsam") && !leave.includes("m_palsam") && !ret.includes("m_palsam")) {
 				pm.push("סמפ״מ");
 				missy[1] = true;
 			}
-			if (miss.includes("kashrag")) {
+			if (miss.includes("kashrag") && !leave.includes("kashrag") && !ret.includes("kashrag")) {
 				pm.push("סקשר״ג");
 				missy[2] = true;
 			}
-			if (miss.includes("tene")) {
+			if (miss.includes("tene") && !leave.includes("tene") && !ret.includes("tene")) {
 				pm.push("ממח״גית");
 				missy[3] = true;
 			}
-			if (miss.includes("dr")) {
+			if (miss.includes("dr") && !leave.includes("dr") && !ret.includes("dr")) {
 				pm.push("חוג״דת");
 				missy[4] = true;
 			}
 			
 			let pms = [];
-			if (miss.includes("masol_1")) {
+			if (miss.includes("masol_1") && !leave.includes("masol_1") && !ret.includes("masol_1")) {
 				pms.push("סמסו״ל א׳");
 				missy[5] = true;
 			}
-			if (miss.includes("masol_2")) {
+			if (miss.includes("masol_2") && !leave.includes("masol_2") && !ret.includes("masol_2")) {
 				pms.push("סמסו״ל ב׳");
 				missy[6] = true;
 			}
-			if (miss.includes("masol_3")) {
+			if (miss.includes("masol_3") && !leave.includes("masol_3") && !ret.includes("masol_3")) {
 				pms.push("סמסו״ל ג׳");
 				missy[7] = true;
 			}
@@ -553,6 +670,42 @@ button {
 				if (skip_map[Number(j)]) { continue; }
 				let l = people_lozim[j];
 				if (!l) { continue; }
+				
+				for (let key in replacements) {
+
+				    let cfg = replacements[key];
+
+				    if (
+				        j == cfg.index &&
+				        miss.includes(key) &&
+				        (
+				            leave.includes(key) ||
+				            ret.includes(key)
+				        )
+				    ) {
+
+				        let leaveMode = leave.includes(key);
+
+				        let [myLoz, replacementLoz] =
+				            SplitLoz(
+				                l,
+				                cfg.original,
+				                cfg.replacement,
+				                leaveMode
+				            );
+
+				        l = myLoz;
+
+				        if (people_lozim[cfg.replacementIndex] === "") {
+				            people_lozim[cfg.replacementIndex] =
+				                replacementLoz;
+				        }
+				        else {
+				            people_lozim[cfg.replacementIndex] +=
+				                "\n\n" + replacementLoz;
+				        }
+				    }
+				}
 				
 				let name = `${pps[j]}`;
 				
@@ -670,13 +823,23 @@ button {
 		document.querySelectorAll(".missing:checked").forEach(cb => { 
 			miss.push(cb.value); });
 			
-		p_string = ReplaceNames (p_string, miss);
+		let leave = [];
+		document.querySelectorAll(".leave:checked").forEach(r => {
+			leave.push(r.dataset.missing);
+		});
+
+		let ret = [];
+		document.querySelectorAll(".return:checked").forEach(r => {
+			ret.push(r.dataset.missing);
+		});
+			
+		p_string = ReplaceNames(p_string, miss, leave, ret);
 		
 		let result = TodayLozim(p_string);
 		let lozim = result[0];
 		let locations = result[1];
 		
-		ThePeopleLozim(lozim, locations, miss, days, people, mate, mate_2, mana, masolim, samsolim, samnaot);
+		ThePeopleLozim(lozim, locations, miss, leave, ret, days, people, mate, mate_2, mana, masolim, samsolim, samnaot);
 	  }
 	  
 	</script>
