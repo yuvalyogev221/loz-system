@@ -457,7 +457,7 @@ button {
 	    );
 	
 	    if (!selected) {
-	        return "missing";
+	        return "normal";
 	    }
 	
 	    return selected.value;
@@ -600,6 +600,8 @@ button {
 				  people_in.push(...pms);
 				}
 
+				for (let i in pps) {
+    				let p = pps[i];
 					
 					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot)){
 						let loc = locations[count];
