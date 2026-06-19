@@ -417,14 +417,50 @@ button {
 			}
 			return people_in;
 		}
+
+		const roleMap = {
+		    "ק.אג״ם": ["k_agam", "קמב״צ"],
+		    "מ.פלס״ם": ["m_palsam", "סמפ״מ"],
+		    "קשר״ג": ["kashrag", "סקשר״ג"],
+		    "מפל״ג טנ״א": ["tene", "ממח״גית"],
+		    "קרפ״ג": ["dr", "חוג״דת"],
 		
-		function IfInLoz(p, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
+		    "מסו״ל א׳": ["masol_1", "סמסו״ל א׳"],
+		    "מסו״ל ב׳": ["masol_2", "סמסו״ל ב׳"],
+		    "מסו״ל ג׳": ["masol_3", "סמסו״ל ג׳"]
+		};
+		
+		function IfInLoz(p, people, mate, mate_2, mana, masolim, samsolim, samnaot, hour, statusMap) {
 			for (let i of people) {
 				if (p === i) { return true; }
 				
 				else if (i === "מטה") {
-					for (let j of mate) { if (p === j) { return true; } }
-				}
+
+    for (let j of mate) {
+
+        if (p !== j) {
+            continue;
+        }
+
+        if (roleMap[j]) {
+
+            let key = roleMap[j][0];
+            let backup = roleMap[j][1];
+
+            let status = statusMap[key];
+
+            if (status === "leave" && hour >= 12) {
+                return false;
+            }
+
+            if (status === "return" && hour < 12) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
 				
 				else if (i === "מטה 2") {
 					for (let j of mate_2) { if (p === j) { return true; } }
@@ -661,7 +697,7 @@ button {
 				for (let i in pps) {
     				let p = pps[i];
 					
-					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot)){
+					if (IfInLoz(p, people_in, mate, mate_2, mana, masolim, samsolim, samnaot, hour, statusMap)){
 						let loc = locations[count];
 						let entry;
 						if (loc === "") { entry = loz; }
