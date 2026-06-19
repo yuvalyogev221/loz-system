@@ -593,12 +593,70 @@ button {
 				}
 				
 				if (loz.includes("מטה")) {
-				  people_in.push(...pm);
-				}
+
+    const mateReplacements = [
+        ["k_agam", "קמב״צ"],
+        ["m_palsam", "סמפ״מ"],
+        ["kashrag", "סקשר״ג"],
+        ["tene", "ממח״גית"],
+        ["dr", "חוג״דת"]
+    ];
+
+    for (let [key, backup] of mateReplacements) {
+
+        let status = statusMap[key];
+
+        let shouldAdd = false;
+
+        if (status === "missing") {
+            shouldAdd = true;
+        }
+
+        else if (status === "leave" && hour >= 12) {
+            shouldAdd = true;
+        }
+
+        else if (status === "return" && hour < 12) {
+            shouldAdd = true;
+        }
+
+        if (shouldAdd) {
+            people_in.push(backup);
+        }
+    }
+}
 				
 				if (loz.includes("מסו״לים")) {
-				  people_in.push(...pms);
-				}
+
+    const masolReplacements = [
+        ["masol_1", "סמסו״ל א׳"],
+        ["masol_2", "סמסו״ל ב׳"],
+        ["masol_3", "סמסו״ל ג׳"]
+    ];
+
+    for (let [key, backup] of masolReplacements) {
+
+        let status = statusMap[key];
+
+        let shouldAdd = false;
+
+        if (status === "missing") {
+            shouldAdd = true;
+        }
+
+        else if (status === "leave" && hour >= 12) {
+            shouldAdd = true;
+        }
+
+        else if (status === "return" && hour < 12) {
+            shouldAdd = true;
+        }
+
+        if (shouldAdd) {
+            people_in.push(backup);
+        }
+    }
+}
 
 				for (let i in pps) {
     				let p = pps[i];
