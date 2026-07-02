@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import sqlite3
 import os
 
@@ -55,6 +55,32 @@ def get_phone(role):
         "error": "Role not found"
     }), 404
 
+    @app.route("/update_phone", methods=["POST"])
+def update_phone():
+
+    data = request.get_json()
+
+    role = data["role"]
+    number = data["number"]
+
+    conn = sqlite3.connect("new_t.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        UPDATE Phone_numbers
+        SET Number = ?
+        WHERE Role = ?
+        """,
+        (number, role)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True
+    })
 
 if __name__ == "__main__":
     app.run(
