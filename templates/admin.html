@@ -2,6 +2,7 @@
 <html lang="he" dir="rtl">
 
 <head>
+
     <meta charset="UTF-8">
     <title>ניהול מספרי טלפון</title>
 
@@ -9,135 +10,87 @@
 
         body{
 
-    margin:0;
+            margin:0;
+            background:#EEF3FA;
+            font-family:Arial;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
 
-    background:#EEF3FA;
+        }
 
-    font-family:Arial;
+        h1{
 
-    display:flex;
+            margin-top:50px;
+            color:#173B78;
+            font-size:42px;
 
-    flex-direction:column;
+        }
 
-    align-items:center;
+        .card{
 
-}
+            width:600px;
+            background:white;
+            margin-top:40px;
+            border-radius:18px;
+            padding:40px;
+            box-shadow:0px 8px 25px rgba(0,0,0,.08);
 
-h1{
+        }
 
-    margin-top:50px;
+        h2{
 
-    color:#173B78;
+            text-align:center;
+            color:#2E5CB8;
+            margin-bottom:35px;
 
-    font-size:42px;
+        }
 
-}
+        label{
 
-.card{
+            display:block;
+            margin-top:20px;
+            margin-bottom:8px;
+            font-weight:bold;
 
-    width:600px;
+        }
 
-    background:white;
+        select,
+        input{
 
-    margin-top:40px;
+            width:100%;
+            padding:15px;
+            font-size:18px;
+            border-radius:10px;
+            border:1px solid #CCC;
+            box-sizing:border-box;
 
-    border-radius:18px;
+        }
 
-    padding:40px;
+        button{
 
-    box-shadow:0px 8px 25px rgba(0,0,0,.08);
+            width:100%;
+            margin-top:35px;
+            padding:15px;
+            font-size:20px;
+            border:none;
+            border-radius:10px;
+            background:#2F63E6;
+            color:white;
+            cursor:pointer;
 
-}
+        }
 
-h2{
+        button:hover{
 
-    text-align:center;
+            background:#214CB7;
 
-    color:#2E5CB8;
-
-    margin-bottom:35px;
-
-}
-
-label{
-
-    display:block;
-
-    margin-top:20px;
-
-    margin-bottom:8px;
-
-    font-weight:bold;
-
-}
-
-select,input{
-
-    width:100%;
-
-    padding:15px;
-
-    font-size:18px;
-
-    border-radius:10px;
-
-    border:1px solid #CCC;
-
-    box-sizing:border-box;
-
-}
-
-button{
-
-    width:100%;
-
-    margin-top:35px;
-
-    padding:15px;
-
-    font-size:20px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#2F63E6;
-
-    color:white;
-
-    cursor:pointer;
-
-}
-
-button:hover{
-
-    background:#214CB7;
-
-}
+        }
 
     </style>
 
 </head>
 
-<script>
-
-const role = document.getElementById("role");
-const number = document.getElementById("number");
-
-role.addEventListener("change", async function () {
-
-    const response = await fetch("/phone/" + encodeURIComponent(role.value));
-
-    const data = await response.json();
-
-    number.value = data.number;
-
-});
-
-role.dispatchEvent(new Event("change"));
-
-</script>
-    
 <body>
 
 <h1>ניהול מספרי טלפון</h1>
@@ -152,7 +105,7 @@ role.dispatchEvent(new Event("change"));
 
         {% for phone in phones %}
 
-        <option>
+        <option value="{{ phone[0] }}">
             {{ phone[0] }}
         </option>
 
@@ -174,6 +127,27 @@ role.dispatchEvent(new Event("change"));
     </button>
 
 </div>
+
+<script>
+
+const role = document.getElementById("role");
+const number = document.getElementById("number");
+
+async function loadPhone() {
+
+    const response = await fetch("/phone/" + encodeURIComponent(role.value));
+
+    const data = await response.json();
+
+    number.value = data.number;
+
+}
+
+role.addEventListener("change", loadPhone);
+
+loadPhone();
+
+</script>
 
 </body>
 
