@@ -120,7 +120,7 @@
         type="text"
     >
 
-    <button>
+    <button id="save">
 
         💾 שמור
 
@@ -146,6 +146,37 @@ async function loadPhone() {
 role.addEventListener("change", loadPhone);
 
 loadPhone();
+
+const save = document.getElementById("save");
+
+save.addEventListener("click", async function () {
+
+    const response = await fetch("/update_phone", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            role: role.value,
+            number: number.value
+
+        })
+
+    });
+
+    const data = await response.json();
+
+    if (data.success){
+
+        alert("המספר נשמר בהצלחה ✅");
+
+    }
+
+});
 
 </script>
 
