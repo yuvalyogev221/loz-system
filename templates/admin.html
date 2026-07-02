@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ניהול מספרי טלפון</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            padding:40px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th,td{
+            border:1px solid #ccc;
+            padding:12px;
+            text-align:center;
+        }
+
+        th{
+            background:#6891E3;
+            color:white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>ניהול מספרי טלפון</h1>
+
+<table>
+
+    <tr>
+        <th>תפקיד</th>
+        <th>מספר טלפון</th>
+    </tr>
+
+    {% for phone in phones %}
+
+    <tr>
+
+        <td>{{ phone[0] }}</td>
+
+        <td>{{ phone[1] }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</body>
+
+</html>
