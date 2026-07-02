@@ -55,7 +55,9 @@ def get_phone(role):
         "error": "Role not found"
     }), 404
 
-    @app.route("/update_phone", methods=["POST"])
+
+
+@app.route("/update_phone", methods=["POST"])
 def update_phone():
 
     data = request.get_json()
