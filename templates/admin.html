@@ -119,6 +119,25 @@ button:hover{
 
 </head>
 
+<script>
+
+const role = document.getElementById("role");
+const number = document.getElementById("number");
+
+role.addEventListener("change", async function () {
+
+    const response = await fetch("/phone/" + encodeURIComponent(role.value));
+
+    const data = await response.json();
+
+    number.value = data.number;
+
+});
+
+role.dispatchEvent(new Event("change"));
+
+</script>
+    
 <body>
 
 <h1>ניהול מספרי טלפון</h1>
@@ -129,7 +148,7 @@ button:hover{
 
     <label>תפקיד</label>
 
-    <select>
+    <select id="role">
 
         {% for phone in phones %}
 
@@ -144,8 +163,8 @@ button:hover{
     <label>מספר טלפון</label>
 
     <input
+        id="number"
         type="text"
-        value=""
     >
 
     <button>
