@@ -9,6 +9,27 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+@app.route("/admin")
+def admin():
+
+    conn = sqlite3.connect("new_t.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT Role, Number
+        FROM Phone_numbers
+        ORDER BY Role
+    """)
+
+    phones = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin.html",
+        phones=phones
+    )
+
 
 @app.route("/phone/<path:role>")
 def get_phone(role):
