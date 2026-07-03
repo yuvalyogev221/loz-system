@@ -11,7 +11,7 @@
         body{
 
             margin:0;
-            background:#EEF3FA;
+            background:linear-gradient(135deg,#EEF4FF,#DCEBFF);
             font-family:Arial;
             display:flex;
             flex-direction:column;
@@ -51,7 +51,15 @@
             box-shadow:
                 0 12px 35px rgba(0,0,0,.10);
         
-            transition:.25s;
+            transition:all .25s ease;
+        
+        }
+
+        .card:hover{
+
+            transform:translateY(-4px);
+        
+            box-shadow:0 18px 45px rgba(0,0,0,.12);
         
         }
 
@@ -74,35 +82,125 @@
 
         select,
         input{
-
+        
             width:100%;
-            padding:15px;
-            font-size:18px;
-            border-radius:10px;
-            border:1px solid #CCC;
+        
+            padding:16px;
+        
+            font-size:17px;
+        
+            border-radius:14px;
+        
+            border:1px solid #D6DEEB;
+        
+            background:#FAFCFF;
+        
             box-sizing:border-box;
+        
+            transition:all .25s ease;
+        
+            outline:none;
+        
+        }
 
+        select:focus,
+        input:focus{
+        
+            border-color:#3B82F6;
+        
+            box-shadow:0 0 0 4px rgba(59,130,246,.15);
+        
         }
 
         button{
 
-            width:100%;
-            margin-top:35px;
-            padding:15px;
-            font-size:20px;
-            border:none;
-            border-radius:10px;
-            background:#2F63E6;
-            color:white;
-            cursor:pointer;
+    width:100%;
 
-        }
+    margin-top:35px;
 
-        button:hover{
+    padding:16px;
 
-            background:#214CB7;
+    font-size:19px;
 
-        }
+    font-weight:bold;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#3B82F6,#2563EB);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+    box-shadow:0 8px 18px rgba(37,99,235,.25);
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 24px rgba(37,99,235,.35);
+
+}
+
+button:active{
+
+    transform:translateY(1px);
+
+}
+
+        header{
+
+    width:100%;
+
+    background:white;
+
+    padding:18px 40px;
+
+    box-sizing:border-box;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
+
+}
+
+.logo{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#173B78;
+
+}
+
+.home-button{
+
+    text-decoration:none;
+
+    color:#2563EB;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+.home-button:hover{
+
+    color:#173B78;
+
+}
 
     </style>
 
@@ -110,6 +208,18 @@
 
 <body>
 
+<header>
+
+    <div class="logo">
+        📱 Loz System
+    </div>
+
+    <a href="/" class="home-button">
+        🏠 דף הבית
+    </a>
+
+</header>
+    
 <h1>ניהול מספרי טלפון</h1>
 
 <div class="card">
