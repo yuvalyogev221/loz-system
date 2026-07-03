@@ -476,17 +476,23 @@ async function savePhone(){
     if (data.success){
 
         message.innerHTML = "✅ המספר נשמר בהצלחה";
-    
-        message.style.color = "#16A34A";
-    
+
+        message.style.display = "block";
+        
+        message.style.background = "#DCFCE7";
+        
+        message.style.color = "#166534";
+        
+        message.style.border = "1px solid #86EFAC";
+        
         message.style.fontWeight = "bold";
-    
-        message.style.textAlign = "center";
-    
+        
         setTimeout(function(){
-    
+        
+            message.style.display = "none";
+        
             message.innerHTML = "";
-    
+        
         },2000);
     
     }
