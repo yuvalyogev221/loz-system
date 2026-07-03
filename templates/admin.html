@@ -446,8 +446,13 @@ loadPhone();
 const save = document.getElementById("save");
 
 const message = document.getElementById("message");
-    
-save.addEventListener("click", async function () {
+
+const codeModal = document.getElementById("codeModal");
+const adminCode = document.getElementById("adminCode");
+const confirmBtn = document.getElementById("confirmBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+async function savePhone(){
 
     const response = await fetch("/update_phone", {
 
@@ -485,6 +490,56 @@ save.addEventListener("click", async function () {
         },2000);
     
     }
+
+}
+    
+save.addEventListener("click", function(){
+
+    codeModal.style.display = "flex";
+
+});
+
+cancelBtn.addEventListener("click", function(){
+
+    codeModal.style.display = "none";
+
+});
+
+confirmBtn.addEventListener("click", async function(){
+
+    const response = await fetch("/verify_code", {
+
+        method: "POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+
+            code: adminCode.value
+
+        })
+
+    });
+
+    const data = await response.json();
+
+    if(!data.success){
+
+        adminCode.value = "";
+
+        adminCode.placeholder = "❌ קוד שגוי";
+
+        adminCode.focus();
+
+        return;
+
+    }
+
+    codeModal.style.display = "none";
+
+    savePhone();
 
 });
 
