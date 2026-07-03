@@ -497,6 +497,30 @@ async function savePhone(){
     
     }
 
+    else{
+
+    message.innerHTML = "❌ " + data.message;
+
+    message.style.display = "block";
+
+    message.style.background = "#FEE2E2";
+
+    message.style.color = "#B91C1C";
+
+    message.style.border = "1px solid #FCA5A5";
+
+    message.style.fontWeight = "bold";
+
+    setTimeout(function(){
+
+        message.style.display = "none";
+
+        message.innerHTML = "";
+
+    },3000);
+
+}
+
 }
     
 save.addEventListener("click", function(){
