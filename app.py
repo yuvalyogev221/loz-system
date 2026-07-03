@@ -63,7 +63,23 @@ def update_phone():
     data = request.get_json()
 
     role = data["role"]
-    number = data["number"]
+	
+    number = ''.join(c for c in data["number"] if c.isdigit())
+	
+	the_number = ''
+	
+	if number.startswith("0") and len(number) == 10:
+	    the_number = "972" + number[1:]
+		
+	elif number.startswith("972") and len(number) == 12:
+		the_number = number
+	
+	else:
+		return jsonify({
+		        "success": False,
+		        "message": "מספר טלפון לא תקין"
+		    })
+	
 
     conn = sqlite3.connect("new_t.db")
     cursor = conn.cursor()
@@ -74,7 +90,7 @@ def update_phone():
         SET Number = ?
         WHERE Role = ?
         """,
-        (number, role)
+        (the_number, role)
     )
 
     conn.commit()
@@ -83,6 +99,7 @@ def update_phone():
     return jsonify({
         "success": True
     })
+
 
 @app.route("/verify_code", methods=["POST"])
 def verify_code():
