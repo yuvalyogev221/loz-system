@@ -150,6 +150,42 @@ button {
   display: block;
   margin: 20px auto;
 }
+
+	  .admin-button{
+
+    display:block;
+
+    width:90%;
+
+    margin:10px auto 30px auto;
+
+    padding:12px 20px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    background:white;
+
+    color:#2563EB;
+
+    border:2px solid #2563EB;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    transition:all .25s ease;
+
+}
+
+.admin-button:hover{
+
+    background:#2563EB;
+
+    color:white;
+
+}
     
   </style>
 </head>
@@ -248,10 +284,16 @@ button {
 </div>
 		
 		<form onsubmit="Run(event)">
-	        <div class="container">
-	            <button type="submit">צור לו״זים</button>
-	          </div>
-		 </form>
+		    <div class="container">
+		        <button type="submit">צור לו״זים</button>
+		    </div>
+		
+		    <div class="container">
+		        <a href="/admin" class="admin-button">
+		            ⚙️ ניהול מספרי טלפון
+		        </a>
+		    </div>
+		</form>
 		 
 		 <div id="results"></div>
 		 
