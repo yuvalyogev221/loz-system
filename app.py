@@ -84,6 +84,22 @@ def update_phone():
         "success": True
     })
 
+@app.route("/verify_code", methods=["POST"])
+def verify_code():
+
+    data = request.get_json()
+
+    code = data["code"]
+
+    if code == os.environ.get("ADMIN_CODE"):
+        return jsonify({
+            "success": True
+        })
+
+    return jsonify({
+        "success": False
+    })
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
