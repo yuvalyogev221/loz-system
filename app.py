@@ -81,6 +81,7 @@ def update_phone():
     conn = sqlite3.connect("new_t.db")
     cursor = conn.cursor()
 
+    print("Updating:", role, number)
     cursor.execute(
         """
         UPDATE Phone_numbers
@@ -91,6 +92,7 @@ def update_phone():
     )
 
     conn.commit()
+    print("Update completed")
     conn.close()
 
     return jsonify({
