@@ -370,7 +370,7 @@ button {
 			loz = loz.replace(/קט״אגית/g, "ממח״גית");
 			
 			if (miss.includes("dr") && !leave.includes("dr") && !ret.includes("dr")) {
-				loz = loz.replace(/קרפ״ג/g, "חוג״דת");
+				loz = loz.replace(/קרפ״ג/g, "חוג״ד");
 			}
 			
 			if (miss.includes("masol_1") && !leave.includes("masol_1") && !ret.includes("masol_1")) {
@@ -529,7 +529,7 @@ button {
 		}
 		
 		function ThePeopleLozim(lozim, locations, miss, leave, ret, d, people, mate, mate_2, mana, masolim, samsolim, samnaot) {
-			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״דת", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
+			let pps = ["ק.אג״ם", "מ.פלס״ם", "קשר״ג", "מפל״ג טנ״א", "קמש״ג", "קרפ״ג", "קמ״ן", "קמב״צ", "סמפ״מ", "ממח״גית", "סקשר״ג", "קל״ג", "מסו״ל א׳", "מסו״ל ב׳", "מסו״ל ג׳", "רס״ר", "מנ״ע מטבח", "מנ״ע טנ״א", "מנ״ע לוגיסטיקה", "ק.רכב", "סמנ״א 1", "סמנ״א 2", "ע.מג״ד", "חוג״ד", "פק״רית", "ע.ק. אג״ם", "סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳", "מסו״ל אלקוש", "סמסו״ל אלקוש", "מני״ג"];
 			
 			let replacements = {
 			    k_agam: {
@@ -564,7 +564,7 @@ button {
 			        index: 5,
 			        replacementIndex: 23,
 			        original: "קרפ״ג",
-			        replacement: "חוג״דת"
+			        replacement: "חוג״ד"
 			    },
 
 			    masol_1: {
@@ -612,7 +612,7 @@ button {
 				missy[3] = true;
 			}
 			if (miss.includes("dr") && !leave.includes("dr") && !ret.includes("dr")) {
-				pm.push("חוג״דת");
+				pm.push("חוג״ד");
 				missy[4] = true;
 			}
 			
@@ -833,7 +833,7 @@ button {
 		let samsolim = ["סמסו״ל א׳", "סמסו״ל ב׳", "סמסו״ל ג׳"];
 		let samnaot = ["סמנ״א 1", "סמנ״א 2", "ע.מג״ד"];
 		
-		let people = ["מטה","מטה 2","מסו״לים","מנ״ע","סמנ״א 1","סמנ״א 2","חוג״דת","פק״רית","ע.ק. אג״ם","סמסו״לים","סמנ״אות",...mate,...mate_2,...mana,...masolim,...samsolim,...samnaot,"ע.מג״ד", "מני״ג"];
+		let people = ["מטה","מטה 2","מסו״לים","מנ״ע","סמנ״א 1","סמנ״א 2","חוג״ד","פק״רית","ע.ק. אג״ם","סמסו״לים","סמנ״אות",...mate,...mate_2,...mana,...masolim,...samsolim,...samnaot,"ע.מג״ד", "מני״ג"];
 		
 	    let p_string = document.getElementById("nameInput").value;
 		
