@@ -4,6 +4,18 @@ import os
 
 app = Flask(__name__)
 
+import shutil
+
+DB_PATH = "/var/data/new_t.db"
+
+# אם אנחנו רצים ב-Render
+if os.path.exists("/var/data"):
+    # אם זו הפעם הראשונה - מעתיקים את המסד לדיסק
+    if not os.path.exists(DB_PATH):
+        shutil.copy("new_t.db", DB_PATH)
+else:
+    # עבודה מקומית
+    DB_PATH = "new_t.db"
 
 @app.route("/")
 def home():
@@ -12,7 +24,7 @@ def home():
 @app.route("/admin")
 def admin():
 
-    conn = sqlite3.connect("new_t.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -34,7 +46,7 @@ def admin():
 @app.route("/phone/<path:role>")
 def get_phone(role):
 
-    conn = sqlite3.connect("new_t.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute(
@@ -78,7 +90,7 @@ def update_phone():
             "message": "מספר טלפון לא תקין"
         })
 
-    conn = sqlite3.connect("new_t.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     print("Updating:", role, number)
