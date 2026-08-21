@@ -24,7 +24,7 @@ def home():
 @app.route("/admin")
 def admin():
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -46,7 +46,7 @@ def admin():
 @app.route("/phone/<path:role>")
 def get_phone(role):
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
     cursor = conn.cursor()
 
     cursor.execute(
@@ -90,22 +90,48 @@ def update_phone():
             "message": "מספר טלפון לא תקין"
         })
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
     cursor = conn.cursor()
-
-    print("Updating:", role, number)
-    cursor.execute(
-        """
-        UPDATE Phone_numbers
-        SET Number = ?
-        WHERE Role = ?
-        """,
-        (number, role)
-    )
-
-    conn.commit()
-    print("Update completed")
-    conn.close()
+    
+    try:
+        print("Updating:", role, number)
+    
+        cursor.execute(
+            """
+            UPDATE Phone_numbers
+            SET Number = ?
+            WHERE Role = ?
+            """,
+            (number, role)
+        )
+    
+        conn.commit()
+        print("Update completed")
+    
+        return jsonify({
+            "success": True
+        })
+    
+    except sqlite3.IntegrityError:
+        conn.rollback()
+    
+        return jsonify({
+            "success": False,
+            "message": "המספר כבר נמצא בשימוש על ידי תפקיד אחר"
+        }), 400
+    
+    except sqlite3.OperationalError as e:
+        conn.rollback()
+    
+        print("Database error:", e)
+    
+        return jsonify({
+            "success": False,
+            "message": "שגיאה במסד הנתונים. נסה שוב בעוד כמה שניות."
+        }), 500
+    
+    finally:
+        conn.close()
 
     return jsonify({
         "success": True
